@@ -139,8 +139,11 @@ def menu():
     request = str(input("\n>> "))
     if request == "1":
         Animation(skull_frames).play()
-    else:
+    elif request == "2":
         Animation(heal_frames).play()
+    else:
+        print("Invalid input, please try again.")
+        menu()
 
 
 if __name__ == "__main__":

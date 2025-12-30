@@ -101,9 +101,4 @@ heal_frames = [
             '''
     ]
 
-loading_frames = ['''.. ''', 
-                  ''' ..''', '''  .
-  .
-                  ''', '''   
-  .
-  .'''  ]
+loading_frames = []

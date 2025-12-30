@@ -1,6 +1,7 @@
+from asyncio import run
 from frames import skull_frames, heal_frames
 from time import sleep
-from UIhelpers import clear_screen, colors
+from UI.UIhelpers import clear_screen, colors
 # Classes and functions for animations  
 
 class Animation:
@@ -8,7 +9,6 @@ class Animation:
         self.frames = frames # list of strings/the frames
         self.delay = delay # seconds between frames
         self.color = color # color for the animation
-
     def play(self):
         try:
             while True:
@@ -21,6 +21,32 @@ class Animation:
             clear_screen()
             print("Animation stopped.")
             menu() 
+            
+class Menu():
+    def __init__(self, title, options):
+        self.title = title
+        self.options = options
+    def display(self):
+            print(self.title)
+            for i, option in enumerate(self.options, start=1):
+                print(f"{i}. {option}")
+    def run(self):
+        self.display()
+        choice = input("Select an option: ")
+        if choice == '1':
+            print("Starting Skull Animation. Press Ctrl+C to stop.")
+            sleep(2)
+            Animation(skull_frames, color=colors.RED, delay=0.5).play()
+        elif choice == '2':
+            print("Starting Heal Animation. Press Ctrl+C to stop.")
+            sleep(2)
+            Animation(heal_frames, color=colors.GREEN, delay=0.3).play()
+        elif choice == '3':
+            print("Exiting...")
+            exit()
+        else:
+            print("Invalid choice. Please try again.")
+            self.run()
 
 
 # old functions, replaced with Animation class usage, saved here for future reference
@@ -32,29 +58,6 @@ class Animation:
 
 #----------------------Menu to select animation\Interface----------------------
 
-def menu():
-    print("="*60)
-    print("1. Start animation skull\n2. Start animation heal\n3. Exit")
-    print("="*60)
-    request = str(input("\n>> ")).strip()
-    if request == "1":
-        print("Starting skull animation. Press Ctrl+C to stop.")
-        sleep(2)
-        Animation(skull_frames, colors.RED).play()
-    elif request == "2":
-        print("Starting heal animation. Press Ctrl+C to stop.")
-        sleep(2)
-        Animation(heal_frames, colors.GREEN).play()
-    elif request == "3":
-        clear_screen()
-        print("Exiting program.")
-        sleep(1)
-        clear_screen()
-        exit()
-    else:
-        print("Invalid input, please try again.")
-        menu()
-
 
 if __name__ == "__main__":
-    menu()
+    Menu("Select Animation", ["Skull Animation", "Heal Animation", "Exit"]).run()

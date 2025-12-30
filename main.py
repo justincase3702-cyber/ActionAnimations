@@ -1,128 +1,28 @@
-import time, os # used for delay and clearing screen, might nick pick functions later
+from frames import skull_frames, heal_frames
+from time import sleep
+from UIhelpers import clear_screen, colors
 # Classes and functions for animations  
+
 class Animation:
-    def __init__(self, frames, delay=0.4):
+    def __init__(self, frames, color=colors.RESET, delay=0.4):
         self.frames = frames # list of strings/the frames
         self.delay = delay # seconds between frames
+        self.color = color # color for the animation
 
     def play(self):
         try:
             while True:
                 for frame in self.frames:
-                    os.system('clear')  # Clear screen
-                    print(frame)
-                    time.sleep(self.delay) # basic delay between frames/fps
+                    clear_screen() 
+                    print(self.color + frame + colors.RESET) 
+                    sleep(self.delay) 
         # added keyboard interrupt in case of infinite loop, user can stop with ctrl+c 
         except KeyboardInterrupt:
-            os.system('clear')
+            clear_screen()
             print("Animation stopped.")
             menu() 
 
-# ----------------------Frames for different animations----------------------
 
-"""Skull Animation, will use this for a death screen or a boss battle depending on the situation"""          
-skull_frames = [
-        '''                 uuuuuuu
-             uu$$$$$$$$$$$uu
-          uu$$$$$$$$$$$$$$$$$uu
-         u$$$$$$$$$$$$$$$$$$$$$u
-        u$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$"   "$$$"   "$$$$$$u
-       "$$$$"      u$u       $$$$"
-        $$$u       u$u       u$$$
-        $$$u      u$$$u      u$$$
-         "$$$$uu$$$   $$$uu$$$$"
-          "$$$$$$$"   "$$$$$$$"
-            u$$$$$$$u$$$$$$$u
-             u$"$"$"$"$"$"$u
-             $$u$ $ $ $ $u$$
-              $$$$$u$u$u$$$
-  uuu          "$$$$$$$$$"         uuu
- u$$$$            """"            u$$$$
-  $$$$$uu                      uu$$$$$$
-u$$$$$$$$$$$uu             uuuu$$$$$$$$$$
-$$$$"""$$$$$$$$$$uuu   uu$$$$$$$$$"""$$$"
- """      ""$$$$$$$$$$$uu ""$"""
-           uuuu ""$$$$$$$$$$uuu
-  u$$$uuu$$$$$$$$$uu ""$$$$$$$$$$$uuu$$$
-  $$$$$$$$$$""""           ""$$$$$$$$$$$"
-   "$$$$$"                      ""$$$$""
-     $$$"                         $$$$
-                YOU DIED!
-                MUHAHAHA!
-            Killed by (placeholder)!
-            Level reached: (placeholder)
-            
-            ''',
-        '''                 uuuuuuu
-             uu$$$$$$$$$$$uu
-          uu$$$$$$$$$$$$$$$$$uu
-         u$$$$$$$$$$$$$$$$$$$$$u
-        u$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$$$$$$$$$$$$$$$$$$$$u
-       u$$$$$$"   "$$$"   "$$$$$$u
-       "$$$$"      u$u       $$$$"
-        $$$u       u$u       u$$$
-        $$$u      u$$$u      u$$$
-         "$$$$uu$$$   $$$uu$$$$"
-          "$$$$$$$"   "$$$$$$$"
-            u$$$$$$$u$$$$$$$u
-             u$"$"$"$"$"$"$u
-             $             $
-              $           $
-  uuu         $u$ $ $ $ $u$        uuu
- u$$$$        $$$$$u$u$u$$$       u$$$$
-  $$$$$uu      "$$$$$$$$$"     uu$$$$$$
-u$$$$$$$$$$$uu    """""    uuuu$$$$$$$$$$
-$$$$"""$$$$$$$$$$uuu   uu$$$$$$$$$"""$$$"
- """      ""$$$$$$$$$$$uu ""$"""
-           uuuu ""$$$$$$$$$$uuu
-  u$$$uuu$$$$$$$$$uu ""$$$$$$$$$$$uuu$$$
-  $$$$$$$$$$""""           ""$$$$$$$$$$$"
-   "$$$$$"                      ""$$$$""
-     $$$"                         $$$$
-                YOU DIED!
-                MUHAHAHA!
-            Killed by (placeholder)!
-            Level reached: (placeholder)
-            
-            '''
-    ]
-
-# heal frames for a healing spell or potion use, could be used in various contexts, might improve later         
-heal_frames = [
-        '''        __    
-     __|  |__
-    |__    __|          /\\
-       |__|            /  \\
-              ____     \\  /
-             |    |     \\/
-         ____|    |____
-        |              |
-        |____      ____|
-             |    |     
-             |____|
-        
-        Healing .
-            ''',
-        '''       ____                  
-      |    |
-  ____|    |____
- |              |
- |____      ____|
-      |    |      /\\
-      |____|     /  \\
-                 \\  /
-            __    \\/
-         __|  |__
-        |__    __|
-           |__|
-        Healing . .
-            '''
-    ]
 # old functions, replaced with Animation class usage, saved here for future reference
 """while True:
         for frame in frames:
@@ -134,13 +34,23 @@ heal_frames = [
 
 def menu():
     print("="*60)
-    print("1. Start animation skull\n2. Start animation heal")
+    print("1. Start animation skull\n2. Start animation heal\n3. Exit")
     print("="*60)
-    request = str(input("\n>> "))
+    request = str(input("\n>> ")).strip()
     if request == "1":
-        Animation(skull_frames).play()
+        print("Starting skull animation. Press Ctrl+C to stop.")
+        sleep(2)
+        Animation(skull_frames, colors.RED).play()
     elif request == "2":
-        Animation(heal_frames).play()
+        print("Starting heal animation. Press Ctrl+C to stop.")
+        sleep(2)
+        Animation(heal_frames, colors.GREEN).play()
+    elif request == "3":
+        clear_screen()
+        print("Exiting program.")
+        sleep(1)
+        clear_screen()
+        exit()
     else:
         print("Invalid input, please try again.")
         menu()

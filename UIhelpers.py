@@ -1,0 +1,15 @@
+from os import system 
+#---------Screen----------
+def clear_screen():
+    system('cls' if system.__name__ == 'nt' else 'clear')
+#---------Colors----------
+class colors:
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    MAGENTA = '\033[95m'
+    CYAN = '\033[96m'
+    WHITE = '\033[97m'
+    RESET = '\033[0m'
+    
